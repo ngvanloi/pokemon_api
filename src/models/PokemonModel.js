@@ -3,15 +3,8 @@ const mongoose = require('mongoose')
 const pokemonSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
-    type1: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Type",
-      required: true,
-    },
-    type2: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Type",
-    },
+    type1: { type: String, required: true },
+    type2: { type: String },
     total: { type: Number, required: true },
     hp: { type: Number, required: true },
     attack: { type: Number },
