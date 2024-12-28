@@ -29,6 +29,24 @@ const getAllPokemons = async (req, res) => {
     }
 }
 
+const getPokemonById = async (req, res) => {
+    try {
+        const id = req.params.id
+        if (!id) {
+            return res.status(200).json({
+                status: 'ERR',
+                message: 'The id is required'
+            })
+        }
+        const response = await PokemonService.getPokemonById(id)
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(404).json({
+            message: e
+        })
+    }
+}
+
 const updateFavoriteToPokemon = async (req, res) => {
     try {
         const { id } = req.params;
@@ -51,5 +69,6 @@ const updateFavoriteToPokemon = async (req, res) => {
 module.exports = {
     createManyPokemons,
     getAllPokemons,
-    updateFavoriteToPokemon
+    updateFavoriteToPokemon,
+    getPokemonById
 }

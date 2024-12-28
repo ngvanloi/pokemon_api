@@ -35,7 +35,7 @@ const createManyPokemons = (pokemons) => {
 const getAllPokemons = (query) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let { limit = 10, page = 1, sort, type, isLegendary = null, minSpeed, maxSpeed, searchName } = query
+      let { limit = 10, page = 1, sort, type, isLegendary = null, minSpeed = 0, maxSpeed = 1000, searchName } = query
       limit = Number(limit) || null;
       page = Number(page) || 0;
 
@@ -95,6 +95,30 @@ const getAllPokemons = (query) => {
   });
 };
 
+const getPokemonById = (id) => {
+  return new Promise(async (resolve, reject) => {
+      try {
+          const pokemon = await Pokemon.findOne({
+              _id: id
+          })
+          if (pokemon === null) {
+              resolve({
+                  status: 'ERR',
+                  message: 'The pokemon is not defined'
+              })
+          }
+
+          resolve({
+              status: 'OK',
+              message: 'SUCESS',
+              data: pokemon
+          })
+      } catch (e) {
+          reject(e)
+      }
+  })
+}
+
 const updateFavoriteToPokemon = (id, isFavorite) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -123,5 +147,6 @@ const updateFavoriteToPokemon = (id, isFavorite) => {
 module.exports = {
   createManyPokemons,
   getAllPokemons,
-  updateFavoriteToPokemon
+  updateFavoriteToPokemon,
+  getPokemonById
 }
