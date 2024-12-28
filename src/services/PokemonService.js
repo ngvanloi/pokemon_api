@@ -95,6 +95,28 @@ const getAllPokemons = (query) => {
   });
 };
 
+const getAllMyFavoritePokemons = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+        const favoritePokemons  = await Pokemon.find({ isFavorite: true });
+        if (favoritePokemons.length === 0) {
+          resolve({
+            status: 'ERR',
+            message: 'No favorite Pokémon found'
+          });
+        } 
+
+        resolve({
+            status: 'OK',
+            message: 'SUCESS',
+            data: favoritePokemons
+        })
+    } catch (e) {
+        reject(e)
+    }
+})
+};
+
 const getPokemonById = (id) => {
   return new Promise(async (resolve, reject) => {
       try {
@@ -148,5 +170,6 @@ module.exports = {
   createManyPokemons,
   getAllPokemons,
   updateFavoriteToPokemon,
-  getPokemonById
+  getPokemonById,
+  getAllMyFavoritePokemons
 }

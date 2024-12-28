@@ -3,7 +3,8 @@ const router = express.Router()
 const PokemonController = require('../controllers/PokemonController');
 
 router.get('/', PokemonController.getAllPokemons)
-router.get('/:id', PokemonController.getPokemonById)
+router.get('/get-details/:id', PokemonController.getPokemonById)
+router.get('/my-favorite', PokemonController.getAllMyFavoritePokemons)
 router.post('/', PokemonController.createManyPokemons)
 router.patch('/:id', PokemonController.updateFavoriteToPokemon)
 

@@ -28,6 +28,16 @@ const getAllPokemons = async (req, res) => {
         })
     }
 }
+const getAllMyFavoritePokemons = async (req, res) => {
+    try {
+        const response = await PokemonService.getAllMyFavoritePokemons()
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(400).json({
+            message: e
+        })
+    }
+}
 
 const getPokemonById = async (req, res) => {
     try {
@@ -69,6 +79,7 @@ const updateFavoriteToPokemon = async (req, res) => {
 module.exports = {
     createManyPokemons,
     getAllPokemons,
+    getAllMyFavoritePokemons,
     updateFavoriteToPokemon,
     getPokemonById
 }
