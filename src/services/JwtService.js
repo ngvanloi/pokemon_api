@@ -1,0 +1,48 @@
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv');
+dotenv.config()
+
+const genneralAccessToken = async (payload) => {
+    const access_token = jwt.sign({
+        ...payload
+    }, process.env.ACCESS_TOKEN, { expiresIn: '1d' })
+
+    return access_token
+}
+
+const getUserIdByAccessToken = (token) => {
+    const user = jwt.verify(token, process.env.ACCESS_TOKEN);
+    return user?.id
+}
+
+
+const refreshTokenJwtService = (token) => {
+    return new Promise((resolve, reject) => {
+        try {
+            jwt.verify(token, process.env.REFRESH_TOKEN, async (err, user) => {
+                if (err) {
+                    resolve({
+                        status: 'ERR',
+                        message: 'The authentication'
+                    })
+                }
+                const access_token = await genneralAccessToken({
+                    id: user?.id,
+                })
+                resolve({
+                    status: 'OK',
+                    message: 'SUCCESS',
+                    access_token
+                })
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+module.exports = {
+    genneralAccessToken,
+    refreshTokenJwtService,
+    getUserIdByAccessToken
+}
