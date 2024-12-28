@@ -35,7 +35,7 @@ const createManyPokemons = (pokemons) => {
 const getAllPokemons = (query) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let { limit = 10, page = 1, sort, type, isLegendary = null, speedRange, searchName } = query
+      let { limit = 10, page = 1, sort, type, isLegendary = null, minSpeed, maxSpeed, searchName } = query
       limit = Number(limit) || null;
       page = Number(page) || 0;
 
@@ -53,10 +53,7 @@ const getAllPokemons = (query) => {
       }
 
       // Filter by speed range
-      if (speedRange && speedRange.length === 2) {
-        const [minSpeed, maxSpeed] = speedRange;
-        filterQuery.speed = { $gte: Number(minSpeed), $lte: Number(maxSpeed) };
-      }
+      filterQuery.speed = { $gte: Number(minSpeed), $lte: Number(maxSpeed) };
 
       // Filter by search name (case-insensitive)
       if (searchName) {
